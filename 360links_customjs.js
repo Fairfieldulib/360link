@@ -16,6 +16,7 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
     }
     var frameBusterBuster;
     function startBuster() {
+	  console.log(2);
       frameBusterBuster = setInterval(function() {
         if (prevent_bust > 0) {
         prevent_bust -= 3;
@@ -30,7 +31,9 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
         clearInterval(frameBusterBuster);
       }, 2500);
     }
-    startBuster();
+	if (window.location.search.toLowerCase().indexOf('newui') === -1 && jQuery('.custom-links-rectangle:contains("Sorry")').length === 0) {
+      startBuster();
+	}
   }
 
   var iframe = document.getElementById('website');
@@ -59,7 +62,7 @@ jQuery(document).ready(function() {
 		params[param[0].replace('rft.', '')] = decodeURIComponent(param[1]);
 	});
   //scripts for sidebar
-	if (window.location.search.toLowerCase().indexOf('newui') === -1) {
+	if (window.location.search.toLowerCase().indexOf('newui') === -1  && jQuery('.custom-links-rectangle:contains("Sorry")').length === 0) {
       ga('create', 'UA-18832309-14', 'auto');
       ga('send', 'pageview');
 	     jQuery('.title').css('margin', '0');
@@ -217,34 +220,33 @@ jQuery(document).ready(function() {
 		 jQuery('#browse-journal-message').hide();
 		 jQuery('#source-control').click();
 	} else {
-	//scripts for full sources page
-    ga('create', 'UA-18832309-13', 'auto');
-    ga('send', 'pageview');
-    jQuery(document).ready(function() {
-      if (jQuery('.custom-links-rectangle:contains("Sorry")').length > 0) {
-        ga('send', 'event', 'no_results', window.location);
-      }
-    });
-    //library help
-    jQuery('#mobile-action-page').append("<center><h4>Ask a Librarian</h4><div class='needs-js'>Loading Ask a Librarian Chat</div></center>");
-    (function() {
-      var x = document.createElement("script"); x.type = "text/javascript"; x.async = true;
-      x.src = (document.location.protocol === "https:" ? "https://" : "http://") + "libraryh3lp.com/js/libraryh3lp.js?1096"
-      var y = document.getElementsByTagName("script")[0]; y.parentNode.insertBefore(x, y);
-     })();
+		//scripts for full sources page
+		ga('create', 'UA-18832309-13', 'auto');
+		ga('send', 'pageview');
+		 if (jQuery('.custom-links-rectangle:contains("Sorry")').length > 0) {
+		  ga('send', 'event', 'no_results', window.location);
+		 }
+		//library help
+		jQuery('#mobile-action-page').append("<center><h4>Ask a Librarian</h4><div class='needs-js'>Loading Ask a Librarian Chat</div></center>");
+		(function() {
+		  var x = document.createElement("script"); x.type = "text/javascript"; x.async = true;
+		  x.src = (document.location.protocol === "https:" ? "https://" : "http://") + "libraryh3lp.com/js/libraryh3lp.js?1096"
+		  var y = document.getElementsByTagName("script")[0]; y.parentNode.insertBefore(x, y);
+		 })();
 		 setTimeout(function() {
 		   jQuery('.libraryh3lp iframe')[0].style.setProperty('width', '280px', 'important');
 		 }, 1000);
      
 		jQuery('#show-more-options').click();
 		//add google scholar link
+		console.log(params);
 		if (params.genre === 'article' && params.atitle) {
 			var googleScholar = 'https://scholar.google.com/scholar?q=&quot;' + params.atitle.replace(/%20/g,'+') + '&quot;';
 			var link = '<div class="resource-row"><h3>Search External Sources</h3><a target="_blank" class="full-text-link" href="' + googleScholar + '">Search for article on Google Scholar</a></div>';
 			if (jQuery('#more-options').length !== 0) {
 			  jQuery('#more-options').after(link);
 			} else {
-			  jQuery('.single-results').after(link);
+			  jQuery('.custom-links').before(link);
 			}
 		 } else if (params.genre === 'book' || params.genre === 'book item') {
 		 //add catalog search link for books
