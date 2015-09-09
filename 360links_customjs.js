@@ -7,36 +7,41 @@
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-//frame buster stops automatically removing sidebar
-if (window.location.search.toLowerCase().indexOf('newui') === -1) {
-	var prevent_bust = 0;
-	window.onbeforeunload = function() {
-	  prevent_bust++;
-	}
-	var frameBusterBuster;
-	function startBuster() {
-	  frameBusterBuster = setInterval(function() {
-	    if (prevent_bust > 0) {
-		  prevent_bust -= 3;
-		  window.top.location = 'http://library2.fairfield.edu/tests/204.php';
-		  jQuery('#next-source').removeAttr('disabled');
-	      jQuery('#iframeOverlay').hide();
-	    }
-	  }, 1);
-	};
-	function stopBuster() {
-	  setTimeout(function() {
-		  clearInterval(frameBusterBuster);
-		}, 2500);
-	}
-	startBuster();
-}
+(function() {
+  //frame buster stops automatically removing sidebar
+  if (window.location.search.toLowerCase().indexOf('newui') === -1) {
+    var prevent_bust = 0;
+    window.onbeforeunload = function() {
+      prevent_bust++;
+    }
+    var frameBusterBuster;
+    function startBuster() {
+      frameBusterBuster = setInterval(function() {
+        if (prevent_bust > 0) {
+        prevent_bust -= 3;
+        window.top.location = 'http://library2.fairfield.edu/tests/204.php';
+        jQuery('#next-source').removeAttr('disabled');
+          jQuery('#iframeOverlay').hide();
+        }
+      }, 1);
+    };
+    function stopBuster() {
+      setTimeout(function() {
+        clearInterval(frameBusterBuster);
+      }, 2500);
+    }
+    startBuster();
+  }
 
-document.getElementById('website').onload = function() {
-  jQuery('#next-source').removeAttr('disabled');
-  jQuery('#iframeOverlay').hide();
-  stopBuster();
-};
+  var iframe = document.getElementById('website');
+  if (iframe) {
+    iframe.onload = function() {
+      jQuery('#next-source').removeAttr('disabled');
+      jQuery('#iframeOverlay').hide();
+      stopBuster();
+    };
+  }
+}());
 
 //library help
 jQuery("div.chat").html("<h4>Ask a Librarian</h4><div class='needs-js'>Loading Ask a Librarian Chat</div>");
