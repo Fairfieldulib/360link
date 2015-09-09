@@ -219,6 +219,7 @@ jQuery(document).ready(function() {
 		 jQuery('#custom-links-control').click();
 		 jQuery('#browse-journal-message').hide();
 		 jQuery('#source-control').click();
+		 jQuery('head').append('<style>.report-problem-form{position:static!important}</style>');
 	} else {
 		//scripts for full sources page
 		ga('create', 'UA-18832309-13', 'auto');
